@@ -1,6 +1,6 @@
 {
   "name": "node-terse-file-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Work as the name implies.",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
   ],
   "author": "Morilence",
   "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",

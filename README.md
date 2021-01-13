@@ -1,10 +1,18 @@
 # Terse File Manager
 
-## New
+## Install
+
+```shell
+npm i node-terse-file-manager
+```
+
+## Use
 
 ```js
+const FileManager = require("node-terse-file-manager");
+
 // select a folder as the root directory for management
-const fm = new FileManager("./test");
+const fm = new FileManager(path.resolve(__dirname, "demo"));
 ```
 
 ## Methods

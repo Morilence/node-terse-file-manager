@@ -1,0 +1,22 @@
+{
+  "name": "node-terse-file-manager",
+  "version": "1.0.0",
+  "description": "work as the name implies.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js",
+    "lint": "eslint --fix --ext .js test"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Morilence",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  }
+}

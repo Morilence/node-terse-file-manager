@@ -219,7 +219,7 @@ fm.clear();
                 console.log(item.name);
             } else {
                 console.log(item.name + "/");
-                dfsprint(item.children, prefix + "-");
+                print(item.children, prefix + "-");
             }
         }
     }

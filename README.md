@@ -102,8 +102,7 @@ fm.bulk([
             { op: "./tmp/d/da/index3.html", np: "./tmp/d/da/index.js" },
         ],
     },
-])
-.then(res => {
+]).then(res => {
     console.log(res);
 });
 ```
@@ -111,14 +110,14 @@ fm.bulk([
 ### browse (for directory)
 
 ```js
-function print(tree, prefix = "") {
-    for (const node of tree) {
+function print(list, prefix = "") {
+    for (const item of list) {
         process.stdout.write(prefix);
-        if (!node.isdir) {
-            console.log(node.name);
+        if (!item.isdir) {
+            console.log(item.name);
         } else {
-            console.log(node.name + "/");
-            dfsprint(node.children, prefix + "-");
+            console.log(item.name + "/");
+            dfsprint(item.children, prefix + "-");
         }
     }
 }
@@ -213,18 +212,18 @@ fm.clear();
         });
 
     // browse
-    function dfsprint(tree, prefix = "") {
-        for (const node of tree) {
+    function print(list, prefix = "") {
+        for (const item of list) {
             process.stdout.write(prefix);
-            if (!node.isdir) {
-                console.log(node.name);
+            if (!item.isdir) {
+                console.log(item.name);
             } else {
-                console.log(node.name + "/");
-                dfsprint(node.children, prefix + "-");
+                console.log(item.name + "/");
+                dfsprint(item.children, prefix + "-");
             }
         }
     }
-    dfsprint(await fm.browse());
+    print(await fm.browse());
 
     // clear
     await fm.clear();

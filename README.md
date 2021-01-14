@@ -117,7 +117,7 @@ function print(list, prefix = "") {
             console.log(item.name);
         } else {
             console.log(item.name + "/");
-            dfsprint(item.children, prefix + "-");
+            print(item.children, prefix + "-");
         }
     }
 }
@@ -206,8 +206,7 @@ fm.clear();
                     { op: "./tmp/d/da/index3.html", np: "./tmp/d/da/index.js" },
                 ],
             },
-        ])
-        .then(res => {
+        ]).then(res => {
             console.log("bulk:", res);
         });
 

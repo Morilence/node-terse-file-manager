@@ -11,7 +11,7 @@
     "node"
   ],
   "author": "Morilence",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^10.1.0",

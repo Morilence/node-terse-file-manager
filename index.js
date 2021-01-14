@@ -139,10 +139,10 @@ module.exports = class FileManager {
      */
     async clear() {
         for await (const dirent of await fs.promises.opendir(this.root)) {
-            if (dirent.isFile()) {
-                await this._removefile(path.resolve(this.root, dirent.name));
-            } else if (dirent.isDirectory()) {
+            if (dirent.isDirectory()) {
                 await this._removedir(path.resolve(this.root, dirent.name));
+            } else if (dirent.isFile()) {
+                await this._removefile(path.resolve(this.root, dirent.name));
             } else {
                 throw new FileManagerError("Unrecognized target.");
             }
@@ -206,16 +206,16 @@ module.exports = class FileManager {
             (async () => {
                 try {
                     for await (const dirent of await fs.promises.opendir(ap)) {
-                        if (dirent.isFile()) {
-                            res.push({
-                                name: dirent.name,
-                                isdir: false,
-                            });
-                        } else if (dirent.isDirectory()) {
+                        if (dirent.isDirectory()) {
                             res.push({
                                 name: dirent.name,
                                 isdir: true,
                                 children: await this._scandir(path.resolve(ap, dirent.name)),
+                            });
+                        } else if (dirent.isFile()) {
+                            res.push({
+                                name: dirent.name,
+                                isdir: false,
                             });
                         } else {
                             throw new FileManagerError("Unrecognized target.");
@@ -285,9 +285,7 @@ module.exports = class FileManager {
                         !(await this._access(adp, fs.constants.F_OK)) ||
                         ((await this._access(adp, fs.constants.F_OK)) && cover)
                     ) {
-                        const rstream = fs.createReadStream(asp);
-                        const wstream = fs.createWriteStream(adp);
-                        rstream.pipe(wstream);
+                        fs.createReadStream(asp).pipe(fs.createWriteStream(adp));
                     } else {
                         throw new FileManagerError("Target already exists.");
                     }
@@ -305,10 +303,10 @@ module.exports = class FileManager {
                 try {
                     await this._newdir(adp);
                     for await (const dirent of await fs.promises.opendir(asp)) {
-                        if (dirent.isFile()) {
-                            await this._copyfile(path.resolve(asp, dirent.name), path.resolve(adp, dirent.name), cover);
-                        } else if (dirent.isDirectory()) {
+                        if (dirent.isDirectory()) {
                             await this._copydir(path.resolve(asp, dirent.name), path.resolve(adp, dirent.name), cover);
+                        } else if (dirent.isFile()) {
+                            await this._copyfile(path.resolve(asp, dirent.name), path.resolve(adp, dirent.name), cover);
                         } else {
                             throw new FileManagerError("Unrecognized target.");
                         }

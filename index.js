@@ -10,7 +10,12 @@ class FileManagerError extends Error {
 
 module.exports = class FileManager {
     constructor(p) {
-        this.root = path.resolve(p);
+        const ap = path.resolve(p);
+        if (path.parse(ap).ext != "") {
+            throw new FileManagerError("The constructor can only receive the path to a folder.");
+        }
+        this._newdir(ap);
+        this.root = ap;
     }
 
     /**
@@ -62,11 +67,11 @@ module.exports = class FileManager {
         for (const item of list) {
             const asp = this._pretreat(item.sp);
             const adp = this._pretreat(item.dp);
-            const opext = path.parse(asp).ext;
-            const npext = path.parse(adp).ext;
-            if (opext == npext && opext == "") {
+            const spext = path.parse(asp).ext;
+            const dpext = path.parse(adp).ext;
+            if (spext == dpext && spext == "") {
                 await this._copydir(asp, adp, cover);
-            } else if (opext == npext && opext != "") {
+            } else if (spext == dpext && spext != "") {
                 await this._copyfile(asp, adp, cover);
             } else {
                 throw new FileManagerError("Source and target types do not match.");
@@ -83,12 +88,12 @@ module.exports = class FileManager {
         for (const item of list) {
             const asp = this._pretreat(item.sp);
             const adp = this._pretreat(item.dp);
-            const opext = path.parse(asp).ext;
-            const npext = path.parse(adp).ext;
-            if (opext == npext && opext == "") {
+            const spext = path.parse(asp).ext;
+            const dpext = path.parse(adp).ext;
+            if (spext == dpext && spext == "") {
                 await this._copydir(asp, adp, cover);
                 await this._removedir(asp);
-            } else if (opext == npext && opext != "") {
+            } else if (spext == dpext && spext != "") {
                 await this._copyfile(asp, adp, cover);
                 await this._removefile(asp);
             } else {

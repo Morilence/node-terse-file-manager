@@ -2,7 +2,7 @@ const path = require("path");
 const FileManager = require("../index");
 
 // select a folder as the root directory for management
-const fm = new FileManager(path.resolve(__dirname));
+const fm = new FileManager(path.resolve(__dirname, "demo"));
 
 // demonstration
 (async () => {

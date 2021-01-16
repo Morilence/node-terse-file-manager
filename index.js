@@ -209,12 +209,14 @@ module.exports = class FileManager {
                         if (dirent.isDirectory()) {
                             res.push({
                                 name: dirent.name,
+                                path: path.relative(this.root, path.resolve(ap, dirent.name)),
                                 isdir: true,
                                 children: await this._scandir(path.resolve(ap, dirent.name)),
                             });
                         } else if (dirent.isFile()) {
                             res.push({
                                 name: dirent.name,
+                                path: path.relative(this.root, path.resolve(ap, dirent.name)),
                                 isdir: false,
                             });
                         } else {

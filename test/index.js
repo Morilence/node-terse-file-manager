@@ -87,9 +87,9 @@ const fm = new FileManager(path.resolve(__dirname, "demo"));
         for (const item of list) {
             process.stdout.write(prefix);
             if (!item.isdir) {
-                console.log(item.name);
+                console.log(`${item.name} (${item.path})`);
             } else {
-                console.log(item.name + "/");
+                console.log(`${item.name}/ (${item.path})`);
                 print(item.children, prefix + "-");
             }
         }

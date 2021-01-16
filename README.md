@@ -149,8 +149,7 @@ fm.clear();
                 { p: "./temp/a/aa/hello.txt", buf: Buffer.from("Hello, world!") },
             ],
             true
-        )
-        .then(res => {
+        ).then(res => {
             console.log("create:", res);
         });
 
@@ -215,9 +214,9 @@ fm.clear();
         for (const item of list) {
             process.stdout.write(prefix);
             if (!item.isdir) {
-                console.log(item.name);
+                console.log(`${item.name} (${item.path})`);
             } else {
-                console.log(item.name + "/");
+                console.log(`${item.name}/ (${item.path})`);
                 print(item.children, prefix + "-");
             }
         }

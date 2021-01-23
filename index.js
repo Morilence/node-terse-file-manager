@@ -20,6 +20,26 @@ module.exports = class FileManager {
 
     /**
      * @param {string|undefined} p Path of dir. (optional)
+     * @description Whether the path is beyond the root.
+     */
+    isLegal(p) {
+        const ap = this.toap(p);
+        return !(
+            path.relative(this.root, ap).length == 0 ||
+            (path.relative(this.root, ap).indexOf("..") == 0 && this.root.length > ap.length)
+        );
+    }
+
+    /**
+     * @param {string|undefined} p Path of dir. (optional)
+     * @description Convert to an absolute path based on the root.
+     */
+    toAP(p) {
+        return path.resolve(this.root, p);
+    }
+
+    /**
+     * @param {string|undefined} p Path of dir. (optional)
      * @description Browse from the root when p is undefined.
      */
     async browse(p) {
@@ -182,21 +202,8 @@ module.exports = class FileManager {
     }
 
     _pretreat(p) {
-        const _this = this;
-
-        function __toAP(p) {
-            return path.resolve(_this.root, p);
-        }
-
-        function __isLegal(ap) {
-            return !(
-                path.relative(_this.root, ap).length == 0 ||
-                (path.relative(_this.root, ap).indexOf("..") == 0 && _this.root.length > ap.length)
-            );
-        }
-
-        const ap = __toAP(p);
-        if (!__isLegal(ap)) throw new FileManagerError("Illegal path.");
+        const ap = this.toAP(p);
+        if (!this.isLegal(ap)) throw new FileManagerError("Illegal path.");
         return ap;
     }
 

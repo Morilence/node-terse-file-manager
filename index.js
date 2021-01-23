@@ -23,7 +23,7 @@ module.exports = class FileManager {
      * @description Whether the path is beyond the root.
      */
     isLegal(p) {
-        const ap = this.toap(p);
+        const ap = this.toAP(p);
         return !(
             path.relative(this.root, ap).length == 0 ||
             (path.relative(this.root, ap).indexOf("..") == 0 && this.root.length > ap.length)

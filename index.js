@@ -32,6 +32,14 @@ module.exports = class FileManager {
 
     /**
      * @param {string|undefined} p Path of dir. (optional)
+     * @description Whether the file exists.
+     */
+    async isExist(p) {
+        return await this._access(this.toAP(p), fs.constants.F_OK);
+    }
+
+    /**
+     * @param {string|undefined} p Path of dir. (optional)
      * @description Convert to an absolute path based on the root.
      */
     toAP(p) {

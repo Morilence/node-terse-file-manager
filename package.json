@@ -1,6 +1,6 @@
 {
   "name": "node-terse-file-manager",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Work as the name implies.",
   "main": "index.js",
   "scripts": {

@@ -24,10 +24,7 @@ module.exports = class FileManager {
      */
     isLegal(p) {
         const ap = this.toAP(p);
-        return !(
-            path.relative(this.root, ap).length == 0 ||
-            (path.relative(this.root, ap).indexOf("..") == 0 && this.root.length > ap.length)
-        );
+        return !(path.relative(this.root, ap).length == 0 || path.relative(this.root, ap).indexOf("..") == 0);
     }
 
     /**

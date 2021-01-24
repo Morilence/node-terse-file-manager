@@ -254,6 +254,7 @@ module.exports = class FileManager {
                     ) {
                         const wstream = fs.createWriteStream(ap);
                         rstream.pipe(wstream);
+                        resolve(true);
                     } else {
                         throw new FileManagerError("Target already exists.");
                     }

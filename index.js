@@ -68,7 +68,7 @@ module.exports = class FileManager {
     }
 
     /**
-     * @param {array} list An array of objects. Each object has p and buf prop to appoint path and data(Buffer).
+     * @param {array} list An array of objects. Each object has p and rstream prop to appoint path and source.
      * @param {boolean} cover Whether to overwrite the target with the same name.
      */
     async create(list, cover = false) {
@@ -78,7 +78,7 @@ module.exports = class FileManager {
             if (ext == "") {
                 await this._newdir(ap);
             } else {
-                await this._newfile(ap, item.buf == undefined ? Buffer.from("") : item.buf, cover);
+                await this._newfile(ap, item.rstream, cover);
             }
         }
         return { res: "ok" };
@@ -243,7 +243,7 @@ module.exports = class FileManager {
         });
     }
 
-    _newfile(ap, buf, cover) {
+    _newfile(ap, rstream, cover) {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
@@ -253,21 +253,7 @@ module.exports = class FileManager {
                         ((await this._access(ap, fs.constants.F_OK)) && cover)
                     ) {
                         const wstream = fs.createWriteStream(ap);
-                        wstream.on("open", () => {
-                            const blockSize = 128;
-                            const numOfBlocks = Math.ceil(buf.length / blockSize);
-                            for (let i = 0; i < numOfBlocks; i++) {
-                                const currBlock = buf.slice(blockSize * i, Math.min(blockSize * (i + 1), buf.length));
-                                wstream.write(currBlock);
-                            }
-                            wstream.end();
-                        });
-                        wstream.on("error", err => {
-                            throw err;
-                        });
-                        wstream.on("finish", () => {
-                            resolve(true);
-                        });
+                        rstream.pipe(wstream);
                     } else {
                         throw new FileManagerError("Target already exists.");
                     }

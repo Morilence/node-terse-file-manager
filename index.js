@@ -218,19 +218,18 @@ module.exports = class FileManager {
             (async () => {
                 try {
                     for await (const dirent of await fs.promises.opendir(ap)) {
-                        const curp = path.relative(this.root, path.resolve(ap, dirent.name));
                         if (dirent.isDirectory()) {
                             res.push({
                                 name: dirent.name,
-                                path: curp,
+                                path: path.relative(this.root, path.resolve(ap, dirent.name)),
                                 isdir: true,
                                 children: await this._scandir(path.resolve(ap, dirent.name)),
                             });
                         } else if (dirent.isFile()) {
                             res.push({
                                 name: dirent.name,
-                                path: curp,
-                                size: (await this._stat(curp)).size,
+                                path: path.relative(this.root, path.resolve(ap, dirent.name)),
+                                size: (await this._stat(path.resolve(ap, dirent.name))).size,
                                 isdir: false,
                             });
                         } else {
